@@ -137,3 +137,9 @@ Architecture and UI choices for the product catalogue, recorded before implement
 - **Why:** the brief doesn't require either. The app is the only intended client, and it runs against a local stack for this demo. The enquiry endpoint sends email to the sales inbox, so this is the risk to watch.
 - **Accepted risk:** a caller could flood the sales inbox with enquiries. Anyone who finds the address could also read the catalogue without limit.
 - **Revisit when:** the API is deployed publicly. Before that, add rate limiting on `POST /enquiries` and a shared key or sign-in for the app.
+
+## 21. Insecure HTTP allowed for localhost only
+
+- **Decision:** the iOS app allows plain HTTP to `localhost` (App Transport Security exception in `ios/Info.plist`).
+- **Why:** the local backend has no TLS certificate.
+- **Risk:** localhost traffic is unencrypted. Before a deployed build, use HTTPS and remove the exception.
