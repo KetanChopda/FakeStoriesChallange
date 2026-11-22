@@ -14,7 +14,14 @@ const schema = Type.Object({
   ], { default: 'info' }),
   FAKE_STORE_BASE_URL: Type.String({ default: 'https://fakestoreapi.com' }),
   FAKE_STORE_TIMEOUT_MS: Type.Number({ default: 5000 }),
-  CATALOGUE_CACHE_SECONDS: Type.Number({ default: 300 })
+  CATALOGUE_CACHE_SECONDS: Type.Number({ default: 300 }),
+  SMTP_HOST: Type.String({ default: '127.0.0.1' }),
+  SMTP_PORT: Type.Number({ default: 1025 }),
+  SMTP_SECURE: Type.Boolean({ default: false }),
+  SMTP_USER: Type.String({ default: '' }),
+  SMTP_PASSWORD: Type.String({ default: '' }),
+  MAIL_FROM: Type.String({ default: 'Catalogue <no-reply@example.com>' }),
+  SALES_INBOX: Type.String({ default: 'sales@example.com' })
 })
 
 export type Config = Static<typeof schema>
