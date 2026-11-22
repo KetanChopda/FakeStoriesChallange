@@ -20,9 +20,10 @@ final class AppContainer: Sendable {
     }
 
     static func live() -> AppContainer {
-        AppContainer(
-            productRepository: FakeStoreProductRepository(api: APIManager()),
-            enquiryService: StubEnquiryService(),
+        let api = APIManager()
+        return AppContainer(
+            productRepository: BackendProductRepository(api: api),
+            enquiryService: BackendEnquiryService(api: api),
             imageSession: ImageSession.make()
         )
     }

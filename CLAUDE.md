@@ -57,6 +57,8 @@ Verify on the iPhone Duo simulator in closed, half-open, and open poses, followi
 
 ## Testing
 
+Scope: the testing rules below apply to `ios/` only. The backend in `backend/` is built with AI and has no automated tests by the owner's decision; see DECISIONS.md section 19.
+
 - Use Swift Testing: `import Testing`, `@Test`, `#expect`, `#require`, `@Suite` structs, and `@Test(arguments:)`. Do not write new XCTest unit tests. Follow `.claude/skills/modernize-tests`.
 - Write tests first for each layer, then implement.
 - Test doubles are small concrete types or stubs, not generated mocks.
