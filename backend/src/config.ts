@@ -11,7 +11,10 @@ const schema = Type.Object({
     Type.Literal('warn'),
     Type.Literal('error'),
     Type.Literal('fatal')
-  ], { default: 'info' })
+  ], { default: 'info' }),
+  FAKE_STORE_BASE_URL: Type.String({ default: 'https://fakestoreapi.com' }),
+  FAKE_STORE_TIMEOUT_MS: Type.Number({ default: 5000 }),
+  CATALOGUE_CACHE_SECONDS: Type.Number({ default: 300 })
 })
 
 export type Config = Static<typeof schema>
