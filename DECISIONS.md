@@ -123,3 +123,10 @@ Architecture and UI choices for the product catalogue, recorded before implement
 - **Where it was considered:** the cut is listed in section 15. This section records the reasoning so it isn't mistaken for an oversight.
 - **Revisit when:** the catalogue is large enough that loading everything is slow. Until then, the backend returns the full list.
 - **Growth path:** if paging is ever needed, it fits behind `ProductRepository`. Screens would call a repository method that returns a page, so the view models and screens change only where they show "load more".
+
+## 19. Backend: built with AI, without automated tests
+
+- **Decision:** the Node.js backend in `backend/` has no automated test suite. The rule of test-first development applies to the iOS client only.
+- **Why:** the owner is an iOS developer. The backend is built with AI tools, and checking it through the running API and the iOS app is the review we can actually do.
+- **What replaces tests:** every endpoint is exercised by hand against the running server (curl or the iOS app) before it is merged, and the results go in `backend/README.md`.
+- **Risk we accept:** regressions in the backend are caught by the iOS app, not by a backend suite. We revisit this if the backend gains logic beyond the catalogue and enquiry endpoints.
