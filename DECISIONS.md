@@ -115,3 +115,11 @@ Architecture and UI choices for the product catalogue, recorded before implement
 4. Show an in-progress state while a category or product loads, not only on the first load.
 5. Distinguish "no connection" from "server down" in the UI test plan with a fake network layer on the simulator.
 6. Visual checks on iPad and iPhone Duo in every pose, then a snapshot test for the key screens.
+
+## 18. Pagination: not in this phase
+
+- **Decision:** the app loads the whole catalogue in one request and shows it in full. There is no paging, no "load more", and no infinite scroll.
+- **Why:** the Fake Store catalogue has 20 products, and the brief's acceptance criteria only ask for top-rated, category, search, and detail views. Paging would add loading and cursor state to every screen for no visible benefit today.
+- **Where it was considered:** the cut is listed in section 15. The reasoning is recorded here so it isn't mistaken for an oversight.
+- **Phase 2:** the backend's product endpoints should page (for example `limit` and `cursor` on `GET /products`) before the catalogue grows. Search and category filtering would then move server-side with the same paging.
+- **Growth path:** paging fits behind `ProductRepository`. Screens would call a repository method that returns a page, so the view models and screens change only where they show "load more".
