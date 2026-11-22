@@ -48,8 +48,8 @@ struct RootView: View {
             )
         case .product(let id):
             ProductDetailScreen(viewModel: container.makeProductDetailViewModel(id: id))
-        case .enquiry:
-            EmptyView()
+        case .enquiry(let productID):
+            EnquiryScreen(viewModel: container.makeEnquiryViewModel(productID: productID))
         }
     }
 }

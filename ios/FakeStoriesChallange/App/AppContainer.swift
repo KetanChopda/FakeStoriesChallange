@@ -49,4 +49,9 @@ final class AppContainer: Sendable {
     func makeSearchViewModel(categoryName: String? = nil) -> SearchViewModel {
         SearchViewModel(searchProducts: SearchProducts(repository: productRepository), categoryName: categoryName)
     }
+
+    @MainActor
+    func makeEnquiryViewModel(productID: Int) -> EnquiryViewModel {
+        EnquiryViewModel(productID: productID, submitEnquiry: SubmitEnquiry(service: enquiryService))
+    }
 }
