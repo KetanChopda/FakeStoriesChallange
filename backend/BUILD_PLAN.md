@@ -51,7 +51,14 @@ Each module is one commit, and each is checked before the next starts.
 | B5 | iOS switch | `BackendProductRepository` and `BackendEnquiryService` in `ios/`, base URL set in `AppContainer.live()`, Fake Store client removed from the app | Run the app in the simulator against the backend; the iOS test suite still passes after its Fake Store tests are replaced |
 | B6 | Documentation | `backend/README.md` (run steps, endpoints, check log), DECISIONS.md section 6 updated, AI_USAGE.md updated | Read-through; the README steps are run from a clean checkout |
 
-## Decisions to confirm before B1
+## Decisions (confirmed)
+
+- Node 24 (installed as 24.22.3, from the official tarball under `~/.local`). Docker Desktop is installed by you when B4 starts.
+- Sales inbox: `sales@example.com` placeholder in `.env.example`; replaced locally.
+- Email: nodemailer over SMTP; Mailpit locally, Amazon SES later.
+- iOS switch (B5) is done on this branch as its last code module.
+
+## Decisions (superseded, kept for the record)
 
 1. **Node version:** 22 LTS, or 24 if you prefer the newest.
 2. **Sales inbox address:** a placeholder in `.env.example` (for example `sales@example.com`) that you replace locally.
