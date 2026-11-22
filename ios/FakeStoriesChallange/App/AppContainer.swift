@@ -41,6 +41,11 @@ final class AppContainer: Sendable {
     }
 
     @MainActor
+    func makeProductDetailViewModel(id: Int) -> ProductDetailViewModel {
+        ProductDetailViewModel(productID: id, repository: productRepository)
+    }
+
+    @MainActor
     func makeSearchViewModel(categoryName: String? = nil) -> SearchViewModel {
         SearchViewModel(searchProducts: SearchProducts(repository: productRepository), categoryName: categoryName)
     }

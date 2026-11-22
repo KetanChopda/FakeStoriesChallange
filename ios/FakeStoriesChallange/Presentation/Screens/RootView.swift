@@ -46,8 +46,8 @@ struct RootView: View {
                 viewModel: container.makeCategoryViewModel(name: name),
                 search: container.makeSearchViewModel(categoryName: name)
             )
-        case .product:
-            EmptyView()
+        case .product(let id):
+            ProductDetailScreen(viewModel: container.makeProductDetailViewModel(id: id))
         case .enquiry:
             EmptyView()
         }
