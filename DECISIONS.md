@@ -116,10 +116,10 @@ Architecture and UI choices for the product catalogue, recorded before implement
 5. Distinguish "no connection" from "server down" in the UI test plan with a fake network layer on the simulator.
 6. Visual checks on iPad and iPhone Duo in every pose, then a snapshot test for the key screens.
 
-## 18. Pagination: not in this phase
+## 18. Pagination: not in this phase or in Phase 2
 
-- **Decision:** the app loads the whole catalogue in one request and shows it in full. There is no paging, no "load more", and no infinite scroll.
-- **Why:** the Fake Store catalogue has 20 products, and the brief's acceptance criteria only ask for top-rated, category, search, and detail views. Paging would add loading and cursor state to every screen for no visible benefit today.
-- **Where it was considered:** the cut is listed in section 15. The reasoning is recorded here so it isn't mistaken for an oversight.
-- **Phase 2:** the backend's product endpoints should page (for example `limit` and `cursor` on `GET /products`) before the catalogue grows. Search and category filtering would then move server-side with the same paging.
-- **Growth path:** paging fits behind `ProductRepository`. Screens would call a repository method that returns a page, so the view models and screens change only where they show "load more".
+- **Decision:** the app loads the whole catalogue in one request and shows it in full. There is no paging, no "load more", and no infinite scroll. This stays true for Phase 2 unless the decision is revisited.
+- **Why:** the Fake Store catalogue has 20 products, and the brief's acceptance criteria only ask for top-rated, category, search, and detail views. Paging would add loading and cursor state to every screen for no visible benefit.
+- **Where it was considered:** the cut is listed in section 15. This section records the reasoning so it isn't mistaken for an oversight.
+- **Revisit when:** the catalogue is large enough that loading everything is slow. Until then, the backend returns the full list.
+- **Growth path:** if paging is ever needed, it fits behind `ProductRepository`. Screens would call a repository method that returns a page, so the view models and screens change only where they show "load more".
