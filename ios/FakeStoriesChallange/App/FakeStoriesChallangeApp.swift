@@ -9,7 +9,11 @@ import SwiftUI
 
 @main
 struct FakeStoriesChallangeApp: App {
+    private let container = AppContainer.live()
+
     var body: some Scene {
-        WindowGroup { Text("Catalogue") }
+        WindowGroup {
+            RootView(container: container)
+        }
     }
 }
