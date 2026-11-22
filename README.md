@@ -62,3 +62,7 @@ The product source sits behind the `ProductRepository` protocol, and enquiries s
 ## Agent instructions
 
 `CLAUDE.md` holds the rules that AI coding tools follow in this repo. The Apple and architecture skills they use are in `.claude/skills/`.
+
+## Run with the backend
+
+The iOS app needs the backend running on `localhost:3000`. Start it first, then run the app. The backend's setup, Mailpit, and iOS steps are in [backend/README.md](backend/README.md).
