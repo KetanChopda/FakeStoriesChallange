@@ -24,4 +24,11 @@ import Testing
 
         #expect(request.url?.absoluteString == "https://example.test/products/3")
     }
+
+    @Test func `Enquiry endpoint posts to the enquiries path`() {
+        let request = APIEndpoint.enquiries.request(baseURL: baseURL)
+
+        #expect(request.url?.absoluteString == "https://example.test/enquiries")
+        #expect(request.httpMethod == "POST")
+    }
 }

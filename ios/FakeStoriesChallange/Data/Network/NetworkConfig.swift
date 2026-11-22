@@ -25,6 +25,12 @@ enum NetworkConfig {
 
     enum Path {
         static let products = "products"
+        static let enquiries = "enquiries"
+    }
+
+    enum Header {
+        static let contentType = "Content-Type"
+        static let jsonContentType = "application/json"
     }
 
     enum ImageCache {

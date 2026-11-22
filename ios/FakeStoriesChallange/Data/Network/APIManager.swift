@@ -12,6 +12,7 @@ actor APIManager {
     private let session: URLSession
     private let baseURL: URL
     private let decoder = JSONDecoder()
+    private let encoder = JSONEncoder()
 
     init(session: URLSession = .shared, baseURL: URL = NetworkConfig.baseURL) {
         self.session = session
@@ -19,7 +20,23 @@ actor APIManager {
     }
 
     func send<Response: Decodable & Sendable>(_ endpoint: APIEndpoint) async throws -> Response {
-        let (data, response) = try await perform(endpoint.request(baseURL: baseURL))
+        try await execute(endpoint.request(baseURL: baseURL))
+    }
+
+    /// Sends a JSON body to an endpoint and decodes the reply.
+    func post<Body: Encodable & Sendable, Response: Decodable & Sendable>(_ endpoint: APIEndpoint, body: Body) async throws -> Response {
+        var request = endpoint.request(baseURL: baseURL)
+        request.setValue(NetworkConfig.Header.jsonContentType, forHTTPHeaderField: NetworkConfig.Header.contentType)
+        do {
+            request.httpBody = try encoder.encode(body)
+        } catch {
+            throw APIError.encoding
+        }
+        return try await execute(request)
+    }
+
+    private func execute<Response: Decodable & Sendable>(_ request: URLRequest) async throws -> Response {
+        let (data, response) = try await perform(request)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
         }

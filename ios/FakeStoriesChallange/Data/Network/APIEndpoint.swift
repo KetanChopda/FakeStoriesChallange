@@ -11,6 +11,16 @@ import Foundation
 enum APIEndpoint: Equatable, Sendable {
     case products
     case product(id: Int)
+    case enquiries
+
+    var method: HTTPMethod {
+        switch self {
+        case .products, .product:
+            .get
+        case .enquiries:
+            .post
+        }
+    }
 
     func request(baseURL: URL) -> URLRequest {
         var url = baseURL
@@ -18,7 +28,7 @@ enum APIEndpoint: Equatable, Sendable {
             url = url.appending(path: component)
         }
         var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
+        request.httpMethod = method.rawValue
         return request
     }
 
@@ -28,10 +38,13 @@ enum APIEndpoint: Equatable, Sendable {
             [NetworkConfig.Path.products]
         case .product(let id):
             [NetworkConfig.Path.products, String(id)]
+        case .enquiries:
+            [NetworkConfig.Path.enquiries]
         }
     }
 }
 
 enum HTTPMethod: String {
     case get = "GET"
+    case post = "POST"
 }

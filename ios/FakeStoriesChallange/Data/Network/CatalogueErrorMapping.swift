@@ -15,7 +15,7 @@ extension CatalogueError {
             self = .server
         case .invalidResponse, .decoding:
             self = .server
-        case .httpStatus, .transport:
+        case .httpStatus, .transport, .encoding:
             self = .unknown
         }
     }
