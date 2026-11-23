@@ -15,7 +15,7 @@ Architecture and UI choices for the product catalogue, recorded before implement
 
 ## 3. Only two protocols
 
-- `ProductRepository` and `EnquiryService` are protocols because each has two known implementations: the temporary Fake Store source and the Phase 2 backend, and a stub and the backend for enquiries.
+- `ProductRepository` and `EnquiryService` are protocols because each has two known implementations: a fake for tests and the backend for the app.
 - Everything else is concrete. `APIManager` is a concrete actor, and tests use a `URLProtocol` stub instead of a mock type.
 - **Rejected:** a protocol for every type. Protocols without a second implementation add indirection and no value.
 
@@ -29,11 +29,10 @@ Architecture and UI choices for the product catalogue, recorded before implement
 - View models are `@MainActor` because they hold UI state. Use cases, repositories, the API manager, sorting, filtering, validation, and mapping are not, so they run off the main thread.
 - **Why:** keeps scrolling and typing responsive as the catalogue grows.
 
-## 6. Data source: temporary direct Fake Store calls (a deliberate deviation)
+## 6. Data source: the backend, not Fake Store
 
-- The brief forbids the client calling Fake Store directly. Phase 1 does it anyway, through one `FakeStoreProductRepository` behind the `ProductRepository` protocol, so the rest of the app is unaffected.
-- **Phase 2:** a backend repository replaces it by changing one line in the composition root. The direct implementation is then deleted.
-- **Why accept the deviation:** the brief asks for a PoC the entrepreneur can use now, and the backend is a separate piece of work.
+- The app reads products and sends enquiries only through the backend (`BackendProductRepository` and `BackendEnquiryService`). The backend fetches from Fake Store and caches the result.
+- The earlier direct Fake Store repository (a deviation from the brief, first in Phase 1) was removed once the backend was wired in.
 
 ## 7. Adaptive layout for iPhone Duo and resizable windows
 
@@ -77,11 +76,11 @@ Architecture and UI choices for the product catalogue, recorded before implement
 - **Raw errors:** never shown. Messages come from `Copy`.
 - **Limit:** the server message is only unit-tested. The live API always responds, so it cannot be seen on the simulator.
 
-## 13. Enquiries: accepted now, emailed later
+## 13. Enquiries: validated locally, emailed by the backend
 
-- The enquiry form validates locally (name, email format, message) and sends through `EnquiryService`. The temporary `StubEnquiryService` accepts every valid enquiry.
+- The enquiry form validates locally (name, email format, message) and sends through `EnquiryService` to `POST /enquiries`, implemented by `BackendEnquiryService`.
+- The backend emails the sales inbox through SMTP (Mailpit locally).
 - A sending indicator replaces the button label while a send is in flight, and the button is disabled.
-- **Gap:** no email is sent. The brief's acceptance criterion for the sales inbox is not met until the backend and mailer exist. This is recorded as the first Phase 2 item.
 
 ## 14. Assumptions where the brief was unclear
 
@@ -94,8 +93,6 @@ Architecture and UI choices for the product catalogue, recorded before implement
 
 ## 15. What we cut or simplified, and why
 
-- **Backend:** deferred to Phase 2. The brief allows a single client, and the client was the critical path for a demo the entrepreneur can use now.
-- **Sales-inbox email:** deferred with the backend, as above.
 - **Category browsing from the API:** we load the catalogue and filter it, because the catalogue is small and the category endpoint would only add a second code path for now.
 - **Pagination, sorting controls, accounts, and wishlists:** not in the brief's acceptance criteria.
 - **Visual checks on iPad and iPhone Duo:** still to do. The layout is built to adapt to width, but it has not been checked on those devices yet.
@@ -109,12 +106,11 @@ Architecture and UI choices for the product catalogue, recorded before implement
 
 ## 17. Next steps with another day
 
-1. Backend (Node.js and TypeScript) with product, category, and enquiry endpoints, Docker Compose, and a mailer behind an interface. Then switch the two swap points.
-2. Move search and category filtering to the backend, and use the category endpoint.
-3. Proxy product images through the backend, or keep the exception recorded in section 6.
-4. Show an in-progress state while a category or product loads, not only on the first load.
-5. Distinguish "no connection" from "server down" in the UI test plan with a fake network layer on the simulator.
-6. Visual checks on iPad and iPhone Duo in every pose, then a snapshot test for the key screens.
+1. Move search and category filtering to the backend, and use the category endpoint.
+2. Proxy product images through the backend, or keep the exception recorded in section 6.
+3. Show an in-progress state while a category or product loads, not only on the first load.
+4. Distinguish "no connection" from "server down" in the UI test plan with a fake network layer on the simulator.
+5. Visual checks on iPad and iPhone Duo in every pose, then a snapshot test for the key screens.
 
 ## 18. Pagination: not in this phase or in Phase 2
 

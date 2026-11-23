@@ -4,13 +4,13 @@ Guidance for AI agents working in this repository.
 
 ## Project
 
-Product catalogue take-home (AI-Native Engineer challenge). Phase 1 is an iOS client in Swift and SwiftUI (iOS 17+). Phase 2 adds a Node.js + TypeScript backend, which is not started yet.
+Product catalogue take-home (AI-Native Engineer challenge). The iOS client (Swift and SwiftUI, iOS 17+) and the Node.js + TypeScript backend are both built; the app reads and sends everything through the backend.
 
 Acceptance criteria: home shows 5 top-rated products; category page shows top-rated then the rest; search filters by text; tile opens product detail; Enquire form submits and shows a thank-you.
 
 ## Hard constraints from the brief
 
-- The client must not call the Fake Store API directly in the final design. Phase 1 has one temporary `FakeStoreProductRepository` behind the `ProductRepository` protocol. Record this deviation in DECISIONS.md. Phase 2 replaces it with a backend-backed repository.
+- The client must not call the Fake Store API directly. It uses `BackendProductRepository` behind the `ProductRepository` protocol; the backend calls Fake Store. The earlier direct repository was removed (DECISIONS.md section 6).
 - No secrets committed. Use an example env file for configuration.
 - No paid services or accounts the reviewer must create.
 
